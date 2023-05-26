@@ -6,17 +6,9 @@ from sqlalchemy.orm import sessionmaker
 from projet.models import Utilisateur
 from config.database import engine
 
-
-Session = sessionmaker(bind=engine)
-session = Session()
-
-users = session.query(Utilisateur).all()
-for user in users:
-    print(user.name)
 def print_hi(name):
     # Use a breakpoint in the code line below to debug your script.
-    print(f'Hi, {name}')  # Press ⌘F8 to toggle the breakpoint.
-
+    print(f'Hi, {name} test modification')  # Press ⌘F8 to toggle the breakpoint.
 
 # Press the green button in the gutter to run the script.
 if __name__ == '__main__':
