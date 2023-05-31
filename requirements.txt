@@ -13,3 +13,4 @@ Werkzeug==2.3.4
 fastapi~=0.95.2
 pydantic~=1.10.8
 setuptools~=65.5.1
+python-dotenv~=1.0.0
