@@ -1,4 +1,4 @@
-from sqlalchemy import Column, Integer, String, Date, ForeignKey, Index, Float
+from sqlalchemy import Column, Integer, String, ForeignKey, Index, Float, Date
 
 from config.database import Base
 
@@ -19,3 +19,5 @@ class Commande(Base):
     bstock = Column(Integer, default=0)
 
     __table_args__ = (Index('commmande_index', "cdeComt", "codcli"),)
+
+
