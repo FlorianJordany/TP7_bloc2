@@ -27,6 +27,18 @@ session = sessionmaker(bind=engine)
 def initialize_database():
     Base.metadata.create_all(engine)
 
+<<<<<<< HEAD
+
+def get_db():
+    db = session()
+    try:
+        yield db
+    finally:
+        db.close()
+
+if __name__ == "__main__":
+    initialize_database()
+=======
 
 def get_db():
     db = session()
@@ -38,3 +50,4 @@ def get_db():
 
 if __name__ == "__main__":
     initialize_database()
+>>>>>>> main
