@@ -10,7 +10,7 @@ from config.database import get_db
 class DepartementSchema(BaseModel):
     code_dept: constr(min_length=2, max_length=2)
     nom_dept: constr(min_length=2, max_length=50)
-    odre_aff_dept: conint() = 0
+    ordre_aff_dept: conint() = 0
 
     class Config:
         orm_mode = True
