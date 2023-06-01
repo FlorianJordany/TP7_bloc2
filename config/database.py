@@ -9,7 +9,7 @@ from sqlalchemy.orm import sessionmaker, declarative_base
 # Info de connexion a la base
 DATABASE_INFO = {"driver": "mysql+pymysql",
                  "username": "root",
-                 "password": "root",
+                 "password": "",
                  "host": "localhost",
                  "port": os.getenv('DATABASE_PORT'),
                  "database_name": "fromagerie_com"
@@ -27,7 +27,6 @@ session = sessionmaker(bind=engine)
 def initialize_database():
     Base.metadata.create_all(engine)
 
-<<<<<<< HEAD
 
 def get_db():
     db = session()
@@ -38,16 +37,4 @@ def get_db():
 
 if __name__ == "__main__":
     initialize_database()
-=======
 
-def get_db():
-    db = session()
-    try:
-        yield db
-    finally:
-        db.close()
-
-
-if __name__ == "__main__":
-    initialize_database()
->>>>>>> main
