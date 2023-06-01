@@ -8,7 +8,7 @@ from .detail_obj import *
 from .models import *
 from .obj_cond import *
 from .objet import *
-from .poid import *
+from .poids import *
 from .role import *
 from .role_utilisateur import *
 from .utilisateur import *

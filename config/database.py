@@ -27,8 +27,6 @@ session = sessionmaker(bind=engine)
 def initialize_database():
     Base.metadata.create_all(engine)
 
-
-
 def get_db():
     db = session()
     try:

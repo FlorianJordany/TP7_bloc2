@@ -5,6 +5,8 @@ from . import (
     commune_route,
     departement_route,
     conditionnement_route
+    poids_route,
+    vignette_route
 )
 
 
@@ -15,4 +17,6 @@ def get_routes():
     router.include_router(departement_route.router)
     router.include_router(commande_route.router)
     router.include_router(conditionnement_route.router)
+    router.include_router(poids_route.router)
+    router.include_router(vignette_route.router)
     return router
