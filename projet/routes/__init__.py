@@ -4,7 +4,7 @@ from . import (
     commande_route,
     commune_route,
     departement_route,
-    conditionnement_route
+    conditionnement_route,
     poids_route,
     vignette_route
 )
