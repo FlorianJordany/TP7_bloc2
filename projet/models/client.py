@@ -18,3 +18,5 @@ class Client(Base):
     emailcli = Column(String(255), default=None)
     portcli = Column(String(10), default=None)
     newsletter = Column(Integer)
+
+
