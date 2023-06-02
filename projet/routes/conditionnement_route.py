@@ -8,6 +8,7 @@ from config.database import get_db
 
 
 class ConditionnementSchema(BaseModel):
+    idcondit : int = None
     libcondit: str
     poidscondit: int
     prixcond: float
@@ -51,3 +52,14 @@ def create_conditionnement(new_conditionnement: ConditionnementSchema, db: Sessi
         session.commit()
         session.refresh(conditionnement)
     return ConditionnementSchema.from_orm(conditionnement)
+
+
+@router.delete("/{idcondit}")
+def delete_conditionnement(idcondit: int, db: Session = Depends(get_db)):
+    with db:
+        conditionnement = db.get(Conditionnement, idcondit)
+        if not conditionnement:
+            raise HTTPException(status_code=404, detail="Le conditionnement est introuvable")
+        db.delete(conditionnement)
+        db.commit()
+    return {"message": f"Le conditionnement {idcondit} a été supprimé"}
