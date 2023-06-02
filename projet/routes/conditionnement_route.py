@@ -31,7 +31,6 @@ def get_conditionnement_by_weight(poids_commande_gramme: int, db: Session = Depe
     **Obtenir un conditionnement en fonction du poids du produit**
 
     - **poids_commande_gramme**: poids du produit (Input utilisateur).
-    - **db**: Dépendance pour l'objet de session de base de données.
 
     Retourne un conditionnement adapté au poids du produit.
     """
@@ -52,8 +51,6 @@ def get_all_conditionnement(db: Session = Depends(get_db)):
     """
     **Obtenir tous les conditionnements**
 
-    - **db**: Dépendance pour l'objet de session de base de données.
-
     Retourne la liste des conditionnements.
     """
     return db.scalars(select(Conditionnement)).all()
@@ -65,7 +62,6 @@ def create_conditionnement(new_conditionnement: ConditionnementSchema, db: Sessi
     **Crée un nouveau client**
 
     - **new_conditionnement**: Données du nouveau conditionnement à créer.
-    - **db**: Dépendance pour l'objet de session de base de données.
 
     Retourne les données du conditionnement créé.
     """
@@ -83,7 +79,6 @@ def delete_conditionnement(idcondit: int, db: Session = Depends(get_db)):
     **Supprimer un conditionnement**
 
     - **idcondit**: ID du conditionnement à supprimer.
-    - **db**: Dépendance pour l'objet de session de base de données.
 
     Retourne un message qui confirme la suppression.
     """
