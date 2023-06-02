@@ -1,7 +1,12 @@
 from fastapi.testclient import TestClient
+
+from config.database import get_db
 from projet.main import app
+from projet.models import Client
+from projet.routes.client_route import ClientSchema
 
 clients = TestClient(app)
+
 
 ################ CLIENT_ROUTE ################
 
@@ -14,7 +19,6 @@ def test_get_all_clients():
         print(data)
     except Exception as e:
         print(f"Erreur: {str(e)}")
-        assert False
 
 
 # GET route /clients/{client_id} ( récupère les infos d'un client en fonction de son ID )
@@ -28,7 +32,6 @@ def test_get_client():
 
     except Exception as e:
         print(f"Erreur: {str(e)}")
-        assert False
 
 
 # PUT route /client/update/{client_id} ( modifier les infos d'un client en fonction de son ID )
@@ -54,14 +57,13 @@ def test_update_client():
         print(updated_client)
     except Exception as e:
         print(f"Erreur: {str(e)}")
-        assert False
 
 
 # POST route /clients/create ( permet de créer un nouvel utilisateur )
 def test_create_client():
     new_client_data = {
         "genrecli": "Mrs",
-        "nomcli": "TESTDELETE2",
+        "nomcli": "ULTIME",
         "prenomcli": "Eude",
         "adresse1cli": "2 rue test",
         "adresse2cli": "",
@@ -77,25 +79,51 @@ def test_create_client():
         response = clients.post("/clients/create", json=new_client_data)
 
         assert response.status_code == 200
-        created_client = response.json()
-        assert created_client["genrecli"] == new_client_data["genrecli"]
-        assert created_client["nomcli"] == new_client_data["nomcli"]
-        assert created_client["prenomcli"] == new_client_data["prenomcli"]
-        assert created_client["adresse1cli"] == new_client_data["adresse1cli"]
-        assert created_client["adresse2cli"] == new_client_data["adresse2cli"]
-        assert created_client["adresse3cli"] == new_client_data["adresse3cli"]
-        assert created_client["villecli_id"] == new_client_data["villecli_id"]
-        assert created_client["telcli"] == new_client_data["telcli"]
-        assert created_client["emailcli"] == new_client_data["emailcli"]
-        assert created_client["portcli"] == new_client_data["portcli"]
-        assert created_client["newsletter"] == new_client_data["newsletter"]
+        json_client = response.json()
+        created_client = ClientSchema(**json_client)
+
+        assert isinstance(created_client, ClientSchema)
+
+        assert created_client.genrecli == new_client_data["genrecli"]
+        assert created_client.nomcli == new_client_data["nomcli"]
+        assert created_client.prenomcli == new_client_data["prenomcli"]
+        assert created_client.adresse1cli == new_client_data["adresse1cli"]
+        assert created_client.adresse2cli == new_client_data["adresse2cli"]
+        assert created_client.adresse3cli == new_client_data["adresse3cli"]
+        assert created_client.villecli_id == new_client_data["villecli_id"]
+        assert created_client.telcli == new_client_data["telcli"]
+        assert created_client.emailcli == new_client_data["emailcli"]
+        assert created_client.portcli == new_client_data["portcli"]
+        assert created_client.newsletter == new_client_data["newsletter"]
         print(created_client)
+
+        created_client_id = json_client["codcli"]
+
+        db = get_db()
+        session = next(db)
+
+        session.query(Client).filter_by(codcli=created_client_id).delete()
+        session.commit()
+
+        deleted_client = session.get(Client, created_client_id)
+        assert deleted_client is None
 
     except Exception as e:
         print(f"Erreur: {str(e)}")
-        assert False
+
 
 ################ POIDS_ROUTE ################
+
+# GET route /poids/ ( récupère tous les clients )
+def test_get_all_poids():
+    try:
+        response = clients.get("/poids/")
+        assert response.status_code == 200
+        data = response.json()
+        print(data)
+    except Exception as e:
+        print(f"Erreur: {str(e)}")
+
 
 # GET route /poids/{id_poids} ( récupère les infos d'un poids en fonction de son ID  )
 def test_get_poids():
@@ -107,7 +135,8 @@ def test_get_poids():
         print(data)
     except Exception as e:
         print(f"Erreur: {str(e)}")
-        assert False
+
+################ VIGNETTE_ROUTE ################
 
 # GET route /vignette/ ( récupère tous les clients )
 def test_get_all_vignette():
@@ -118,11 +147,8 @@ def test_get_all_vignette():
         print(data)
     except Exception as e:
         print(f"Erreur: {str(e)}")
-        assert False
 
-################ VIGNETTE_ROUTE ################
-
-# GET route /vignette/{id_vignette} ( récupère les infos d'un poids en fonction de son ID  )
+# GET route /vignette/{id_vignette} ( récupère les infos d'un poids en fonction de son ID )
 def test_get_vignette():
     try:
         id_vignette = 1
@@ -132,15 +158,3 @@ def test_get_vignette():
         print(data)
     except Exception as e:
         print(f"Erreur: {str(e)}")
-        assert False
-
-# GET route /poids/ ( récupère tous les clients )
-def test_get_all_poids():
-    try:
-        response = clients.get("/poids/")
-        assert response.status_code == 200
-        data = response.json()
-        print(data)
-    except Exception as e:
-        print(f"Erreur: {str(e)}")
-        assert False
