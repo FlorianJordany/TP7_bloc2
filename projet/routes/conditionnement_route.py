@@ -27,6 +27,14 @@ router = APIRouter(
 
 @router.get("/{poids_commande_gramme}", response_model=ConditionnementSchema)
 def get_conditionnement_by_weight(poids_commande_gramme: int, db: Session = Depends(get_db)):
+    """
+    **Obtenir un conditionnement en fonction du poids du produit**
+
+    - **poids_commande_gramme**: poids du produit (Input utilisateur).
+    - **db**: Dépendance pour l'objet de session de base de données.
+
+    Retourne un conditionnement adapté au poids du produit.
+    """
     conditionnement = db.query(Conditionnement).filter(
         Conditionnement.poidscondit >= poids_commande_gramme
     ).order_by(
@@ -41,11 +49,26 @@ def get_conditionnement_by_weight(poids_commande_gramme: int, db: Session = Depe
 
 @router.get("/", response_model=list[ConditionnementSchema])
 def get_all_conditionnement(db: Session = Depends(get_db)):
+    """
+    **Obtenir tous les conditionnements**
+
+    - **db**: Dépendance pour l'objet de session de base de données.
+
+    Retourne la liste des conditionnements.
+    """
     return db.scalars(select(Conditionnement)).all()
 
 
 @router.post("/", response_model=ConditionnementSchema)
 def create_conditionnement(new_conditionnement: ConditionnementSchema, db: Session = Depends(get_db)):
+    """
+    **Crée un nouveau client**
+
+    - **new_conditionnement**: Données du nouveau conditionnement à créer.
+    - **db**: Dépendance pour l'objet de session de base de données.
+
+    Retourne les données du conditionnement créé.
+    """
     with db as session:
         conditionnement = Conditionnement(**new_conditionnement.dict())
         session.add(conditionnement)
@@ -56,6 +79,14 @@ def create_conditionnement(new_conditionnement: ConditionnementSchema, db: Sessi
 
 @router.delete("/{idcondit}")
 def delete_conditionnement(idcondit: int, db: Session = Depends(get_db)):
+    """
+    **Supprimer un conditionnement**
+
+    - **idcondit**: ID du conditionnement à supprimer.
+    - **db**: Dépendance pour l'objet de session de base de données.
+
+    Retourne un message qui confirme la suppression.
+    """
     with db:
         conditionnement = db.get(Conditionnement, idcondit)
         if not conditionnement:
