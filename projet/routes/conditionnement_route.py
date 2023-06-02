@@ -73,7 +73,7 @@ def create_conditionnement(new_conditionnement: ConditionnementSchema, db: Sessi
     return ConditionnementSchema.from_orm(conditionnement)
 
 
-@router.delete("/{idcondit}")
+@router.delete("/{idcondit}", include_in_schema=False)
 def delete_conditionnement(idcondit: int, db: Session = Depends(get_db)):
     """
     **Supprimer un conditionnement**

@@ -81,7 +81,7 @@ def update_commande(commande_id, modifications: CommandeSchema, db: Session = De
     return CommandeSchema.from_orm(commande)
 
 
-@router.delete("/{commande_id}")
+@router.delete("/{commande_id}", include_in_schema=False)
 def delete_commande(commande_id: int, db: Session = Depends(get_db)):
     with db:
         commande = db.get(Commande, commande_id)
