@@ -12,6 +12,7 @@ from config.database import get_db
 
 
 class ClientSchema(BaseModel):
+    codcli: int = None
     genrecli: str
     nomcli: str
     prenomcli: str
