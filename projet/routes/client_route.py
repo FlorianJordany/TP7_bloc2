@@ -13,16 +13,16 @@ from config.database import get_db
 
 class ClientSchema(BaseModel):
     codcli: int = None
-    genrecli: str
-    nomcli: str
-    prenomcli: str
-    adresse1cli: str
-    adresse2cli: str
-    adresse3cli: str
+    genrecli: str = None
+    nomcli: str = None
+    prenomcli: str = None
+    adresse1cli: str = None
+    adresse2cli: str = None
+    adresse3cli: str = None
     villecli_id: int
-    telcli: str
-    emailcli: str
-    portcli: str
+    telcli: str = None
+    emailcli: str = None
+    portcli: str = None
     newsletter: int
 
     class Config:
@@ -46,7 +46,7 @@ def create_client(new_client: ClientSchema, db: Session = Depends(get_db)):
         return client
 
 
-@router.put("/update/{client_id}", response_model=ClientSchema)
+@router.put("/{client_id}", response_model=ClientSchema)
 def update_client(client_id, modifications: ClientSchema, db: Session = Depends(get_db)):
     with db:
         client = db.get(Client, client_id)
@@ -65,7 +65,7 @@ def get_client(client_id: int, db: Session = Depends(get_db)):
     client = db.get(Client, client_id)
     if not client:
         raise HTTPException(status_code=404, detail="Ce client est introuvable")
-    return client
+    return ClientSchema.from_orm(client)
 
 
 @router.get("/", response_model=list[ClientSchema])
